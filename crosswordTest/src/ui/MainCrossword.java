@@ -41,10 +41,11 @@ public class MainCrossword {
 		System.out.println(
 				"Main menu, please pick an option\n" +
 				"(1) Show the crossword puzzle\n" +
-				"(2) Init game \n"+
-				"(3) Provide a hint\n"+
-				"(4) Evaluate cell\n" +
-				"(5) Evaluate word\n"+
+				"(2) Show the crossword puzzle in play mode\n"+
+				"(3) Init game \n"+
+				"(4) Provide a hint\n"+
+				"(5) Evaluate cell\n" +
+				"(6) Evaluate word\n"+
 				"(0) To leave the application"
 				);
 		option= sc.nextInt();
@@ -59,20 +60,23 @@ public class MainCrossword {
 			System.out.println("Bye!");
 			break;
 		case 1:
-			printCrossword();
+			printCrosswordNormalMode();
 			break;
 		case 2:
+			printCrossword();
+			break;
+		case 3:
 			intGame();
 			break;
 	
-		case 3:
+		case 4:
 			giveHint();
 			break;
 
-		case 4:
+		case 5:
 			evaluateLetter();
 			break;
-		case 5:
+		case 6:
 			evaluateWord();
 			break;
 		default:
@@ -132,6 +136,17 @@ private void intGame() {
 		//Se pregunta si el juego está inicializado
 		if(crossword.isInitialized()) {
 			System.out.println(crossword.showCrossword());
+			
+		}else {
+			System.out.println("\nSorry dude, the game is not initialized\n");
+		}
+		
+	}
+	public void printCrosswordNormalMode() {
+		
+		//Se pregunta si el juego está inicializado
+		if(crossword.isInitialized()) {
+			System.out.println(crossword.showCrosswordNormalMode());
 			
 		}else {
 			System.out.println("\nSorry dude, the game is not initialized\n");

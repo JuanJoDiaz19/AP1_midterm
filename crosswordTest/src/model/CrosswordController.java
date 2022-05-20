@@ -105,7 +105,59 @@ public class CrosswordController {
 		}
 		return returnValue;
 	}
+	public String showCrosswordNormalMode() {
+		int rows= crossword.length;
+		int columns= crossword[0].length;
 	
+		String out="";
+		String separator = "+---+ ";
+		String line = "" + String.join("", Collections.nCopies(columns, separator));
+		
+		
+		String numbers ="";
+		String letters = "";
+		int count =0;
+		for(int i=0 ;i<rows ; i++) {
+			numbers ="";
+			letters ="";
+			for(int j=0 ;j<columns ; j++) {
+				count++;
+				Cell actual = crossword[i][j];
+				
+				// numeros de dos cifras
+				if (count>10) {
+					//empty cell
+					if (actual.getState()==CellType.BLACK) {
+						numbers += " ---  ";
+						letters += " ---  ";
+						
+					} else {
+						numbers += " "+actual.getNumber() +"   ";
+						letters += "    "+ actual.getLetter() + " ";
+					}
+				}else //una cifra
+				{
+					//empty cell
+					if (actual.getState()==CellType.BLACK) {
+						numbers += " ---  ";
+						letters += " ---  ";
+						
+					}else {
+						numbers += " "+actual.getNumber() +"    ";
+						letters += "   "+ actual.getLetter() + "  ";
+					}
+				}
+			}
+			//por cada fila se imprimen las lineas
+			out+= line + "\n";
+			out+= numbers + "\n";
+			out+= letters + "\n";
+			
+			
+		}
+		out+= line + "\n";
+		return out;
+	}
 	public String showCrossword() {
 		int rows= crossword.length;
 		int columns= crossword[0].length;
