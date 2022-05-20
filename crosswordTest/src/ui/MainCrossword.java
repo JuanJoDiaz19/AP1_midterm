@@ -83,7 +83,7 @@ public class MainCrossword {
 
 	}
 
-public void evaluateWord() {
+	public void evaluateWord() {
 		
 		
 	}
@@ -132,7 +132,6 @@ private void intGame() {
 		//Se pregunta si el juego está inicializado
 		if(crossword.isInitialized()) {
 			System.out.println(crossword.showCrossword());
-			
 			
 		}else {
 			System.out.println("\nSorry dude, the game is not initialized\n");

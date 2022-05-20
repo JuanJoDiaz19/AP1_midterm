@@ -19,8 +19,18 @@ public class CrosswordController {
 	 * the initial state of a crossword puzzle
 	 */
 	public void initCrossword(String[][] puzzle) {
-		
-		
+		this.crossword = new Cell[puzzle.length][puzzle[0].length];
+		int counter = 1;
+		for (int i = 0; i < crossword.length; i++) {
+			for (int j = 0; j < crossword[0].length; j++) {
+				if (puzzle[i][j].equals(" ")) {
+					crossword[i][j] = new Cell(CellType.BLACK, puzzle[i][j], 0);
+				} else  {
+					crossword[i][j] = new Cell(CellType.CLOSED, puzzle[i][j], counter);
+					counter++;
+				}
+			}
+		}
 	}
 	/**
 	 * Method to verify if a crossword puzzle is initialized
@@ -51,8 +61,24 @@ public class CrosswordController {
 	 * @return
 	 */
 	public String getHint(String letter) {
-		
-		return null;
+		int indexHint = 0;
+		boolean flag = true;
+		for (int i = 0; i < crossword.length && flag; i++) {
+			for (int j = 0; j < crossword[0].length && flag; j++) {
+				if (crossword[i][j].getState() == CellType.CLOSED &&crossword[i][j].getLetter().equals(letter) ) {
+					indexHint = crossword[i][j].getNumber(); 
+					crossword[i][j].setState(CellType.OPEN);
+					flag = false;
+				}
+			}
+		}
+		String returnValue;
+		if (indexHint != 0) {
+			returnValue = "There's a word with the letter "+ letter + " in the cell " + indexHint;
+		} else {
+			returnValue = "I'm sorry there isn't a word with the letter " +  letter; 
+		}
+		return returnValue;
 	}
 	
 	/**
@@ -62,8 +88,22 @@ public class CrosswordController {
 	 * @return
 	 */
 	public String evaluateCell(String letter, int num) {
-		
-		return null;
+		boolean flag = true;
+		for (int i = 0; i < crossword.length && flag; i++) {
+			for (int j = 0; j < crossword[0].length && flag; j++) {
+				if (crossword[i][j].getLetter().equals(letter) && crossword[i][j].getNumber() == num) {
+					crossword[i][j].setState(CellType.OPEN);
+					flag = false;
+				}
+			}
+		}
+		String returnValue = "";
+		if (flag == false) {
+			returnValue = "The letter " + letter + " is in the cell " + num + "\n";	
+		} else {
+			returnValue = "I'm sorry, the letter " + letter+ " is NOT in the cell "+ num + "\n";
+		}
+		return returnValue;
 	}
 	
 	public String showCrossword() {
@@ -92,7 +132,11 @@ public class CrosswordController {
 						numbers += " ---  ";
 						letters += " ---  ";
 						
-					}else {
+					} else if (actual.getState() == CellType.CLOSED) {
+						numbers += " "+actual.getNumber() +"   ";
+						letters += "      ";
+
+					} else if(actual.getState() == CellType.OPEN) {
 						numbers += " "+actual.getNumber() +"   ";
 						letters += "    "+ actual.getLetter() + " ";
 					}
@@ -103,9 +147,13 @@ public class CrosswordController {
 						numbers += " ---  ";
 						letters += " ---  ";
 						
-					}else {
+					}else if (actual.getState() == CellType.CLOSED) {
 						numbers += " "+actual.getNumber() +"    ";
-						letters += "    "+ actual.getLetter() + " ";
+						letters += "      ";
+
+					} else if(actual.getState() == CellType.OPEN) {
+						numbers += " "+actual.getNumber() +"    ";
+						letters += "   "+ actual.getLetter() + "  ";
 					}
 				}
 			}
